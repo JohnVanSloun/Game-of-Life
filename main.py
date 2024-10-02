@@ -2,6 +2,7 @@ DEAD = 0
 LIVE = 1
 
 grid = [[DEAD for i in range(25)] for j in range(25)]
+cells_to_change = []
 
 # Resets the grid state to its initial state
 def reset_grid():
@@ -43,10 +44,21 @@ def num_live_neighbors(row, col):
 # 2. If cell is LIVE and 2 or 3 neighbor cells are LIVE then LIVE
 # 3. If cell is LIVE and more than 3 neighbors are LIVE then DEAD
 # 4. If cell is DEAD and 3 neighbor cells are LIVE then LIVE
-def check_to_change_state(row, col):
+# Returns True if a change is warranted based on the rules and False otherwise
+def check_cell_state(row, col):
     if grid[row][col] == LIVE:
         if num_live_neighbors(row, col) < 2 or num_live_neighbors(row, col) > 3:
-            grid[row][col] = DEAD
+            return True
     else:
         if num_live_neighbors(row, col) == 3:
-            grid[row][col] = LIVE
+            return True
+
+    return False
+
+# Update all cells in the cells_to_change list
+def change_cells():
+    for cell in cells_to_change:
+        if grid[cell[0]][cell[1]] == DEAD:
+            update_cell(cell[0], cell[1], LIVE)
+        else:
+            update_cell(cell[0], cell[1], DEAD)
