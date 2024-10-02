@@ -23,8 +23,19 @@ def print_grid():
             else:
                 print(grid[i][j], end="")
 
+# Counts the number of neighbor cells that are LIVE and returns the count
 def num_live_neighbors(row, col):
-    pass
+    num_live = 0
+
+    neighbors = [[row - 1, col], [row - 1, col - 1], [row - 1, col + 1], 
+                 [row, col - 1], [row, col + 1], 
+                 [row + 1, col], [row + 1, col - 1], [row + 1, col + 1]]
+
+    for neighbor in neighbors:
+        if neighbor[0] >= 0 and neighbor[0] < len(grid[row]) and neighbor[1] >= 0 and neighbor[1] < len(grid):
+            num_live += grid[neighbor[0]][neighbor[1]]
+
+    return num_live
 
 # Implements rules to decide if a cell should live or die
 # Rules:
